@@ -1,7 +1,15 @@
-﻿namespace CardboardCastle.SqlServer.ModelImpl
+﻿namespace CardboardCastle.Models
 {
-    using Models;
-    using Models.Types;
+    using Types;
+
+    public interface IPaymentArrangement : IIntegrityModel
+    {
+        decimal Amount { get; set; }
+        long PaymentArrangementId { get; set; }
+        long ResidencyId { get; set; }
+        PaymentType Type { get; set; }
+        long UtilityId { get; set; }
+    }
 
     /// <summary>
     /// Represents an arrangement for how to split a utility

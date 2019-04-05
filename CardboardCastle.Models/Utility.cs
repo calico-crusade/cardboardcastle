@@ -1,9 +1,19 @@
 ﻿using System;
 
-namespace CardboardCastle.SqlServer.ModelImpl
+namespace CardboardCastle.Models
 {
-    using Models;
-    using Models.Types;
+    using Types;
+
+    public interface IUtility : IIntegrityModel
+    {
+        decimal Amount { get; set; }
+        DateTime? PaymentDate { get; set; }
+        long DwellingId { get; set; }
+        string Name { get; set; }
+        string Pattern { get; set; }
+        UtilityPaymentType Type { get; set; }
+        long UtilityId { get; set; }
+    }
 
     /// <summary>
     /// Represents something that needs to be paid within a dwelling

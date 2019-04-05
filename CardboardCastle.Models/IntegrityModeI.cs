@@ -1,8 +1,16 @@
 ﻿using System;
 
-namespace CardboardCastle.SqlServer.ModelImpl
+namespace CardboardCastle.Models
 {
-    using Models;
+    public interface IIntegrityModel
+    {
+        string CreatedBy { get; set; }
+        DateTime CreatedOn { get; set; }
+        string ModifiedBy { get; set; }
+        DateTime ModifiedOn { get; set; }
+        string ObsoletedBy { get; set; }
+        DateTime? ObsoletedOn { get; set; }
+    }
 
     /// <summary>
     /// Represents an object that requires some form of an audit trail

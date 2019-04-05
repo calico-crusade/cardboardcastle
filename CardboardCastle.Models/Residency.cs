@@ -1,6 +1,11 @@
-﻿namespace CardboardCastle.SqlServer.ModelImpl
+﻿namespace CardboardCastle.Models
 {
-    using Models;
+    public interface IResidency : IIntegrityModel
+    {
+        long DwellingId { get; set; }
+        long ResidencyId { get; set; }
+        long ResidentId { get; set; }
+    }
 
     /// <summary>
     /// Represents the relationship between a user and a dwelling
