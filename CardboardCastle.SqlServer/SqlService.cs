@@ -11,9 +11,14 @@ using System.Threading.Tasks;
 
 namespace CardboardCastle.SqlServer
 {
+    using Models;
+    using Models.Types;
+
     public interface ISqlService
     {
         int RunScript(string script);
+
+        Task<SqlResponse> RegisterUser(User user);
     }
 
     public class SqlService : ISqlService
@@ -43,6 +48,48 @@ namespace CardboardCastle.SqlServer
             }
         }
 
+        public Task<SqlResponse> RegisterUser(User user)
+        {
+            return ExecuteStoredProc("[RegisterUser]", new
+            {
+                user.FirstName,
+                user.LastName,
+                user.EmailAddress,
+                user.Password,
+                user.Salt
+            }); 
+        }
 
+        public async Task<SqlResponse> ExecuteStoredProc(string proc, object item, string catalog = null)
+        {
+            using (var con = Connection)
+            {
+                con.Open();
+
+                var code = await con.ExecuteAsync
+                (
+                    sql: (catalog ?? config.Catalog) + proc,
+                    param: item,
+                    commandType: CommandType.StoredProcedure,
+                    commandTimeout: config.Timeout
+                );
+
+                if (code < 0)
+                {
+                    var queryCode = (QueryResponseCode)Math.Abs(code);
+                    return new SqlResponse
+                    {
+                        Code = queryCode,
+                        Id = 0
+                    };
+                }
+
+                return new SqlResponse
+                {
+                    Code = QueryResponseCode.Ok,
+                    Id = code
+                };
+            }
+        }
     }
 }

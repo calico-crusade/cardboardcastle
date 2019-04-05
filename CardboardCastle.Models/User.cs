@@ -6,6 +6,8 @@
         string FirstName { get; set; }
         string LastName { get; set; }
         string Password { get; set; }
+        string ResetToken { get; set; }
+        string Salt { get; set; }
         long UserId { get; set; }
     }
 
@@ -34,5 +36,13 @@
         /// User's password hash
         /// </summary>
         public string Password { get; set; }
+        /// <summary>
+        /// User's Password salt
+        /// </summary>
+        public string Salt { get; set; }
+        /// <summary>
+        /// User's Reset Token
+        /// </summary>
+        public string ResetToken { get; set; }
     }
 }

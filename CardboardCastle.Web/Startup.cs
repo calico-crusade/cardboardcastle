@@ -11,6 +11,7 @@ using System;
 
 namespace CardboardCastle
 {
+    using Core;
     using SqlServer;
 
     public class Startup
@@ -47,15 +48,17 @@ namespace CardboardCastle
                 options.SuppressModelStateInvalidFilter = true;
             });
 
-            var redisSettings = Configuration.GetSection("Redis").Get<CommonConfig>();
-            var databSettings = Configuration.GetSection("Database").Get<DatabaseConfig>();
+            var rdSettings = Configuration.GetSection("Redis").Get<CommonConfig>();
+            var dbSettings = Configuration.GetSection("Database").Get<DatabaseConfig>();
+            var crSettings = Configuration.GetSection("Core").Get<CoreConfig>();
 
             return services
                 .Jwt(Configuration["Tokens:Issuer"], Configuration["Tokens:Key"])
                 .Map(_ =>
                 {
-                    _.Use<ICommonConfig>(redisSettings);
-                    _.Use<IDatabaseConfig>(databSettings);
+                    _.Use<ICommonConfig>(rdSettings);
+                    _.Use<IDatabaseConfig>(dbSettings);
+                    _.Use<ICoreConfig>(crSettings);
                     _.AddNLog();
                 });
         }

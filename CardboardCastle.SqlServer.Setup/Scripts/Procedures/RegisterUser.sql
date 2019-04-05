@@ -22,7 +22,8 @@ ALTER PROCEDURE [dbo].[RegisterUser]
 	@FirstName VARCHAR(256),
 	@LastName VARCHAR(256),
 	@EmailAddress VARCHAR(256),
-	@Password VARCHAR(MAX)
+	@Password VARCHAR(MAX),
+	@Salt VARCHAR(MAX)
 )
 AS
 BEGIN
@@ -49,6 +50,7 @@ BEGIN
 			LastName,
 			EmailAddress,
 			Password,
+			Salt,
 			CreatedBy,
 			ModifiedBy
 		)
@@ -58,6 +60,7 @@ BEGIN
 			@LastName,
 			@EmailAddress,
 			@Password,
+			@Salt,
 			@ModUser,
 			@ModUser
 		)

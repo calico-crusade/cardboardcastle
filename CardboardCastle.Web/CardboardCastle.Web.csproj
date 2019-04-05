@@ -16,14 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CardboardBox" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="StructureMap.AspNetCore" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CardboardCastle.SqlServer\CardboardCastle.SqlServer.csproj" />
+    <ProjectReference Include="..\CardboardCastle.Core\CardboardCastle.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

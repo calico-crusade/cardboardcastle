@@ -1,6 +1,4 @@
-﻿--Replace User with the name of the table
-
-USE [CardboardCastle];
+﻿USE [CardboardCastle];
 GO
 
 --Check if table exists, if it doesn't, create it.
@@ -23,6 +21,8 @@ BEGIN
 		[LastName] VARCHAR(256) NOT NULL,
 		[EmailAddress] VARCHAR(256) NOT NULL,
 		[Password] VARCHAR(MAX) NOT NULL,
+		[Salt] VARCHAR(MAX) NOT NULL,
+		[ResetToken] VARCHAR(MAX) NULL,
 		--Audit Trail
 		[CreatedBy] VARCHAR(256) NOT NULL,
 		[CreatedOn] DATETIME NOT NULL CONSTRAINT DF_User_CreatedOn DEFAULT GETDATE(),
