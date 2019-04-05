@@ -11,6 +11,8 @@ using System;
 
 namespace CardboardCastle
 {
+    using SqlServer;
+
     public class Startup
     {
         public IConfiguration Configuration { get; private set; }
@@ -46,12 +48,14 @@ namespace CardboardCastle
             });
 
             var redisSettings = Configuration.GetSection("Redis").Get<CommonConfig>();
+            var databSettings = Configuration.GetSection("Database").Get<DatabaseConfig>();
 
             return services
                 .Jwt(Configuration["Tokens:Issuer"], Configuration["Tokens:Key"])
                 .Map(_ =>
                 {
                     _.Use<ICommonConfig>(redisSettings);
+                    _.Use<IDatabaseConfig>(databSettings);
                     _.AddNLog();
                 });
         }

@@ -9,34 +9,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CardboardCastle.Models\CardboardCastle.Models.csproj" />
+    <PackageReference Include="CardboardBox" Version="1.0.2" />
+    <PackageReference Include="Dapper" Version="1.60.6" />
+    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="140.17283.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Scripts\Procedures\LogIssue.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scripts\Tables\Dwelling.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scripts\Tables\Log.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scripts\Tables\PaymentArrangement.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scripts\Tables\Residency.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scripts\Tables\Resident.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scripts\Tables\User.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scripts\Tables\Utility.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\CardboardCastle.Models\CardboardCastle.Models.csproj" />
   </ItemGroup>
 
 </Project>
