@@ -1,0 +1,52 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title">Edit Utility: {{ utility.type }}</h4>
+    <button type="button" class="close" (click)="modal.dismiss('close')">
+        <span>&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-6">
+            <label for="type">Utility Type:</label>
+            <div class="input-group">
+                <input id="type" type="text" class="form-control" [(ngModel)]="utility.type" placeholder="Utility Type" />
+            </div>
+        </div>
+        <div class="col-6">
+            <label for="value">Utility Value:</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <span>$</span>
+                    </div>
+                </div>
+                <input id="value" type="number" step="0.01" class="form-control" [(ngModel)]="utility.value" placeholder="Utility Value" />
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngFor="let split of splits">
+        <div class="col-12">
+            <label>{{ getResident(split.residentId).name }}'s split</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <span>%</span>
+                    </div>
+                </div>
+                <input class="form-control" type="number" step="5" min="0" max="100" placeholder="Split" [(ngModel)]="split.split" />
+                <div class="input-group-append">
+                    <div class="input-group-text" style="width: 100px; text-align: center;">
+                        <span>{{ (split.split / 100) * utility.value | currency }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="btn-group">
+        <button class="btn btn-primary" (click)="modal.close(utility)">
+            <i class="fa fa-save"></i>
+        </button>
+    </div>
+</div>

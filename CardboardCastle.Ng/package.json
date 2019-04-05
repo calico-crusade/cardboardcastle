@@ -1,0 +1,60 @@
+{
+  "name": "cardboardcastle.web",
+  "version": "1.0.0",
+  "description": "Cardboard Castle Web application",
+  "license": "MIT",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "clean": "rimraf ../CardboardCastle.Web/wwwroot",
+    "build": "npm run clean && ng build --prod",
+    "watch": "npm run clean && ng build --watch",
+    "build-nonprd": "npm run clean && ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "7.2.12",
+    "@angular/common": "7.2.12",
+    "@angular/compiler": "7.2.12",
+    "@angular/core": "7.2.12",
+    "@angular/forms": "7.2.12",
+    "@angular/http": "7.2.12",
+    "@angular/platform-browser": "7.2.12",
+    "@angular/platform-browser-dynamic": "7.2.12",
+    "@angular/router": "7.2.12",
+    "@ng-bootstrap/ng-bootstrap": "4.1.1",
+    "angular-2-local-storage": "3.0.2",
+    "core-js": "3.0.0",
+    "flag-icon-css": "3.3.0",
+    "font-awesome": "4.7.0",
+    "moment": "2.24.0",
+    "mutationobserver-shim": "0.3.3",
+    "rxjs": "6.4.0",
+    "rxjs-compat": "6.4.0",
+    "simple-line-icons": "2.4.1",
+    "ts-helpers": "1.1.2",
+    "tsickle": "0.34.3",
+    "underscore": "^1.9.1",
+    "zone.js": "0.9.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "0.13.8",
+    "@angular/cli": "7.3.8",
+    "@angular/compiler-cli": "7.2.12",
+    "@angular/language-service": "7.2.12",
+    "@types/node": "11.13.0",
+    "@types/underscore": "^1.8.14",
+    "codelyzer": "5.0.0",
+    "protractor": "6.0.0",
+    "ts-node": "8.0.1",
+    "tslint": "5.15.0",
+    "typescript": "3.2.4"
+  },
+  "engines": {
+    "node": ">= 8.9.4",
+    "npm": ">= 5.6.0"
+  }
+}

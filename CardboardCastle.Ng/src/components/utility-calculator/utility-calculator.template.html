@@ -1,0 +1,93 @@
+﻿<br />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-9">
+            <b>Required Payments</b>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Type</th>
+                            <th>Value</th>
+                            <th *ngFor="let res of residents">
+                                {{ res.name }} ({{ res.residentId }})
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let util of utilities">
+                            <td>{{ util.utilityId }}</td>
+                            <td>{{ util.type }}</td>
+                            <td>{{ util.value | currency }}</td>
+                            <td *ngFor="let res of residents">
+                                <div *ngIf="getSplit(util, res); let s; else else_split">
+                                    {{ s.split * util.value | currency }} ({{ s.split | percent }})                             
+                                </div>
+                                <ng-template #else_split>-</ng-template>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Actions">
+                                    <button type="button" class="btn btn-primary" (click)="editUtility(util)">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#</td>
+                            <td>
+                                <input type="text" class="form-control" placeholder="Type" [(ngModel)]="newType" />
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" step="0.01" placeholder="Value" [(ngModel)]="newValue" />
+                            </td>
+                            <td *ngFor="let res of residents">-</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" (click)="addType()">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-3">
+            <b>Totals</b>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let res of residents">
+                            <td><b>{{ res.residentId }}</b></td>
+                            <td>{{ res.name }}</td>
+                            <td>{{ total(res) | currency }}</td>
+                        </tr>
+                        <tr>
+                            <td>#</td>
+                            <td>
+                                <input type="text" [(ngModel)]="newResident" placeholder="Resident Name" class="form-control" />
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary" (click)="addResident()">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
