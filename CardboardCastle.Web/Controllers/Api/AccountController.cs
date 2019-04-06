@@ -23,7 +23,7 @@ namespace CardboardCastle.Controllers.Api
 
         [Route("api/account/register"), HttpPost]
         [ProducesResponseType(500), ProducesResponseType(200), ProducesResponseType(409), ProducesResponseType(400)]
-        public async Task<IActionResult> Register(RegisterUser user)
+        public async Task<IActionResult> Register([FromBody]RegisterUser user)
         {
             try
             {

@@ -16,7 +16,7 @@ export interface IAnalysis {
 @Injectable()
 export class NetworkService {
 
-    private base = 'api/v1/';
+    private base = 'api/';
     private errors: string[] = [];
     private debug: boolean = true;
     private get authToken(): string {
@@ -95,7 +95,7 @@ export class NetworkService {
     private doUrl(url: string) {
         if (url.indexOf('://') != -1)
             return url;
-        return this.base + (url);
+        return this.base + url;
     }
 
     private doHeaders(addContentType: boolean) {

@@ -11,6 +11,10 @@ export const routes: Routes = [
         loadChildren: './../components/utility-calculator/utility-calculator.module#UtilityCalculatorModule'
     },
     {
+        path: 'account',
+        loadChildren: './../components/account/account.module#AccountModule'
+    },
+    {
         path: '**',
         loadChildren: './../components/notfound/notfound.module#NotFoundModule'
     }
