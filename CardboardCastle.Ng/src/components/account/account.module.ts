@@ -5,11 +5,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { Register } from './register/register.component';
 import { EditAccount } from './edit/edit-account.component';
+import { Login } from './login/login.component';
 
 const ROUTES: Routes = [
     {
         path: 'register',
         component: Register
+    },
+    {
+        path: 'login',
+        component: Login
     },
     {
         path: '',
@@ -19,6 +24,7 @@ const ROUTES: Routes = [
 
 const COMP = [
     Register,
+    Login,
     EditAccount
 ];
 

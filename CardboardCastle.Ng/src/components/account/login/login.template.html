@@ -1,0 +1,44 @@
+﻿<br />
+<br />
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    Sign in
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="col-12 form-group">
+                            <label for="txtEmail">Email Address</label>
+                            <input type="email" class="form-control" id="txtEmail" placeholder="Email Address" [(ngModel)]="email" required />
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="txtPassword">Password</label>
+                            <input type="password" class="form-control" id="txtPassword" placeholder="Password" [(ngModel)]="password" required />
+                        </div>
+                        <div class="col-6">
+                            <p>Need an account? <a routerLink="/account/register">Sign up</a></p>
+                        </div>
+                        <div class="col-6" *ngIf="!loading">
+                            <button class="btn btn-primary float-right" (click)="login()">Sign In</button>
+                        </div>
+                        <div class="col-6" *ngIf="loading">
+                            <button class="btn btn-primary float-right" disabled>Login <i class="fa fa-spin fa-spinner"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-lg-8" *ngIf="errors.length > 0">
+            <br />
+            <div class="alert alert-danger" role="alert">
+                <b class="alert-heading">Oops, there's a problem:</b>
+                <hr />
+                <ul>
+                    <li *ngFor="let alert of errors">{{ alert }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

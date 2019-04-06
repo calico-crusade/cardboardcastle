@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app.routing';
 import { LocalStorageModule } from 'angular-2-local-storage';
 
 // Import local modules
-import { NetworkService, HelperService, StorageService, TokenInterceptor } from './../services';
+import { SERVICES, TokenInterceptor } from './../services';
 
 @NgModule({
     imports: [
@@ -32,9 +32,7 @@ import { NetworkService, HelperService, StorageService, TokenInterceptor } from 
     ],
     bootstrap: [AppComponent],
     providers: [
-        NetworkService,
-        HelperService,
-        StorageService,
+        ...SERVICES,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: TokenInterceptor,

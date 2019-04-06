@@ -1,13 +1,17 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CardboardBox.WebApi;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CardboardCastle.Core
 {
+    using ApiModels;
     using Models;
     using Models.Types;
     using SqlServer;
@@ -15,10 +19,13 @@ namespace CardboardCastle.Core
     public interface ICastleService
     {
         Task<SqlResponse> Register(User user);
+        Task<User> Login(LoginUser user);
+        Task<DetailedUser> GetUser(int userid);
         string PasswordHash(string password, string salt);
         string PasswordHash(string password, string salt, string key);
         string PasswordKey();
         string CreateSalt(int length = 512);
+        string CreateToken(User user);
     }
 
     public class CastleService : ICastleService
@@ -27,12 +34,14 @@ namespace CardboardCastle.Core
         private readonly ICoreConfig config;
         private readonly ILogger logger;
         private readonly ISqlService sqlService;
+        private readonly IConfiguration settings;
 
-        public CastleService(ICoreConfig config, ILogger logger, ISqlService sqlService)
+        public CastleService(ICoreConfig config, ILogger logger, ISqlService sqlService, IConfiguration settings)
         {
             this.config = config;
             this.logger = logger;
             this.sqlService = sqlService;
+            this.settings = settings;
         }
 
         public async Task<SqlResponse> Register(User user)
@@ -52,6 +61,42 @@ namespace CardboardCastle.Core
                     Id = 0
                 };
             }
+        }
+
+        public async Task<User> Login(LoginUser user)
+        {
+            var prof = await sqlService.FetchUser(user.EmailAddress);
+            if (prof == null)
+            {
+                logger.LogInformation($"Account not found {user.EmailAddress}");
+                return null;
+            }
+            var password = PasswordHash(user.Password, prof.Salt);
+
+            if (password != prof.Password)
+            {
+                logger.LogInformation($"Password mismatch {user.EmailAddress}");
+                return null;
+            }
+
+            return prof;
+        }
+
+        public async Task<DetailedUser> GetUser(int userid)
+        {
+            var user = await sqlService.GetUser(userid);
+            return user == null ? null : (DetailedUser)user;
+        }
+
+        public string CreateToken(User user)
+        {
+            return new JwtToken(settings["Tokens:Key"])
+                .SetIssuer(settings["Tokens:Issuer"])
+                .SetAudience(settings["Tokens:Issuer"])
+                .SetEmail(user.EmailAddress)
+                .Expires(int.Parse(settings["Tokens:ExpirationOffset"]))
+                .AddClaim(ClaimTypes.Actor, user.UserId.ToString())
+                .Write();
         }
 
         public string PasswordKey()
@@ -74,7 +119,7 @@ namespace CardboardCastle.Core
             {
                 rng.GetBytes(bytes);
             }
-            return Encoder.GetString(bytes);
+            return Convert.ToBase64String(bytes);
         }
 
         public string PasswordHash(string password, string salt)

@@ -11,13 +11,19 @@
             <li class="nav-item">
                 <a class="nav-link" href="http://bots.index-0.com">Bot Control Panel</a>
             </li>
-            <!--<li class="nav-item dropdown" ngbDropdown>
-                <a class="nav-link dropdown-toggle" id="id01" ngbDropdownToggle>Tools</a>
+            <li class="nav-item dropdown" ngbDropdown *ngIf="user != null">
+                <a class="nav-link dropdown-toggle" id="id01" ngbDropdownToggle>{{ user.firstName }}</a>
                 <div class="dropdown-menu" aria-labelledby="id01" ngbDropdownMenu>
-                    <a class="dropdown-item" routerLink="/utility-calculator">Utility Calculator</a>
-                    <a class="dropdown-item" href="http://bots.index-0.com">Bot Control Panel</a>
+                    <a class="dropdown-item" routerLink="/account">My Account</a>
+                    <a class="dropdown-item" (click)="signout()">Sign Out</a>
                 </div>
-            </li>-->
+            </li>
+            <li class="nav-item" *ngIf="user == null">
+                <a class="nav-link" routerLink="/account/login">Sign In</a>
+            </li>
+            <li class="nav-item" *ngIf="user == null">
+                <a class="nav-link" routerLink="/account/register">Sign Up</a>
+            </li>
         </ul>
     </div>
 </nav>

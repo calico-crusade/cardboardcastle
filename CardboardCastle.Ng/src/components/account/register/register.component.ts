@@ -1,5 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { NetworkService, HelperService } from './../../../services';
+import { HelperService, ApiService } from './../../../services';
 
 @Component({
     selector: 'register-comp',
@@ -17,7 +17,7 @@ export class Register {
     errors: string[] = [];
 
     constructor(
-        private net: NetworkService,
+        private api: ApiService,
         private hlp: HelperService
     ) { }
 
@@ -46,25 +46,10 @@ export class Register {
 
         this.loading = true;
 
-        this.net.post('account/register', {
-            emailAddress: this.email,
-            firstName: this.firstname,
-            lastName: this.lastname,
-            password: this.password
-        }).subscribe(t => {
-            console.log('Success', t);
-            this.loading = false;
-        }, t => {
-            console.log(`Error occurred:`, t);
-            this.loading = false;
-                var statusCode: number = t.status;
-                if (statusCode === 400) {
-                    this.errors.push('Please ensure everything is filled out correctly.');
-                } else if (statusCode === 409) {
-                    this.errors.push('Email address already linked to an account.');
-                } else {
-                    this.errors.push('Something went wrong, please contact an administrator.');
-                }
-        });
+        this.api.register(this.email, this.password, this.firstname, this.lastname)
+            .subscribe(t => {
+                this.errors = t;
+                this.loading = false;
+            });
     }
 }

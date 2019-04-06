@@ -38,7 +38,8 @@ BEGIN
 				1 
 			FROM [dbo].[User] WITH (NOLOCK)
 			WHERE
-				LTRIM(RTRIM(LOWER(@EmailAddress))) = LTRIM(RTRIM(LOWER(EmailAddress)))
+				LTRIM(RTRIM(LOWER(@EmailAddress))) = LTRIM(RTRIM(LOWER(EmailAddress))) AND
+				ObsoletedOn IS NULL
 		)
 		BEGIN
 			ROLLBACK TRANSACTION T1;

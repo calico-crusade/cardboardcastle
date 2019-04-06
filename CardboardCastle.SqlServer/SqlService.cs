@@ -3,10 +3,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Common;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CardboardCastle.SqlServer
@@ -19,6 +18,9 @@ namespace CardboardCastle.SqlServer
         int RunScript(string script);
 
         Task<SqlResponse> RegisterUser(User user);
+
+        Task<User> FetchUser(string email);
+        Task<User> GetUser(int id);
     }
 
     public class SqlService : ISqlService
@@ -60,6 +62,32 @@ namespace CardboardCastle.SqlServer
             }); 
         }
 
+        public async Task<User> FetchUser(string email)
+        {
+            var users = await QueryStoredProc<User>("[FetchUser]", new { Email = email });
+
+            if (users.Data.Length <= 0)
+                return null;
+
+            if (users.Data.Length > 1)
+                logger.LogWarning($"More than one user detected for {email}");
+
+            return users.Data.First();
+        }
+
+        public async Task<User> GetUser(int id)
+        {
+            var users = await QueryStoredProc<User>("[GetUser]", new { UserId = id });
+
+            if (users.Data.Length <= 0)
+                return null;
+
+            if (users.Data.Length > 1)
+                logger.LogWarning($"More than one user detected for {id}");
+
+            return users.Data.First();
+        }
+
         public async Task<SqlResponse> ExecuteStoredProc(string proc, object item, string catalog = null)
         {
             using (var con = Connection)
@@ -92,6 +120,31 @@ namespace CardboardCastle.SqlServer
                 {
                     Code = QueryResponseCode.Ok,
                     Id = code
+                };
+            }
+        }
+
+        public async Task<SqlResponse<T>> QueryStoredProc<T>(string proc, object item, string catalog = null)
+        {
+            using (var con = Connection)
+            {
+                con.Open();
+                var param = new DynamicParameters(item);
+                param.Add("@ret", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+
+                var data = await con.QueryAsync<T>
+                (
+                    sql: (catalog ?? config.Catalog) + proc,
+                    param: param,
+                    commandTimeout: config.Timeout,
+                    commandType: CommandType.StoredProcedure
+                );
+
+                var code = (QueryResponseCode)Math.Abs(param.Get<int>("@ret"));
+                return new SqlResponse<T>
+                {
+                    Code = code,
+                    Data = data.ToArray()
                 };
             }
         }
