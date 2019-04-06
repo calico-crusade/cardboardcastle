@@ -89,7 +89,7 @@ namespace CardboardCastle.Controllers.Api
 
         [Route("api/account/details/{id?}"), HttpGet]
         [ProducesResponseType(200), ProducesResponseType(404), ProducesResponseType(401)]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details([FromRoute]int? id)
         {
             try
             {
@@ -105,6 +105,14 @@ namespace CardboardCastle.Controllers.Api
                 logger.LogError(ex, "Error fetching user profile");
                 return StatusCode(500);
             }
+        }
+
+        [Route("api/account/update"), HttpPost]
+        [ProducesResponseType(200), ProducesResponseType(404), ProducesResponseType(401), ProducesResponseType(500)]
+        public async Task<IActionResult> Update([FromBody]ProfileUpdateUser user)
+        {
+            //TODO: IMPLEMENT THIS
+            return null;
         }
     }
 }

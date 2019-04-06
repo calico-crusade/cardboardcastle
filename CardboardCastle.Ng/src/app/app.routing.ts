@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './../services';
 
 export const routes: Routes = [
     {
@@ -8,7 +9,8 @@ export const routes: Routes = [
     },
     {
         path: 'utility-calculator',
-        loadChildren: './../components/utility-calculator/utility-calculator.module#UtilityCalculatorModule'
+        loadChildren: './../components/utility-calculator/utility-calculator.module#UtilityCalculatorModule',
+        canActivateChild: [AuthGuard]
     },
     {
         path: 'account',

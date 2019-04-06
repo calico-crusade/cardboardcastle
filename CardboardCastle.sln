@@ -11,13 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardboardCastle.Models", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardboardCastle.SqlServer", "CardboardCastle.SqlServer\CardboardCastle.SqlServer.csproj", "{D3FD46D6-1E97-4659-BDEF-AE0A0833C42F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardboardCastle.SqlServer.Setup", "CardboardCastle.SqlServer.Setup\CardboardCastle.SqlServer.Setup.csproj", "{90F563E6-74A5-459F-A60F-E30870E1EC6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardboardCastle.SqlServer.Setup", "CardboardCastle.SqlServer.Setup\CardboardCastle.SqlServer.Setup.csproj", "{90F563E6-74A5-459F-A60F-E30870E1EC6A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{CD6FE99F-4D22-429E-ADCD-BD1E2AE8E65E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Storage", "Storage", "{28C6E1F1-27A2-49DE-90AA-88D5BA916514}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardboardCastle.Core", "CardboardCastle.Core\CardboardCastle.Core.csproj", "{1637A491-1404-4E79-94A9-EC77E622F0FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardboardCastle.Core", "CardboardCastle.Core\CardboardCastle.Core.csproj", "{1637A491-1404-4E79-94A9-EC77E622F0FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,7 +52,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D3FD46D6-1E97-4659-BDEF-AE0A0833C42F} = {28C6E1F1-27A2-49DE-90AA-88D5BA916514}
 		{90F563E6-74A5-459F-A60F-E30870E1EC6A} = {CD6FE99F-4D22-429E-ADCD-BD1E2AE8E65E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

@@ -21,6 +21,7 @@ namespace CardboardCastle.Core
         Task<SqlResponse> Register(User user);
         Task<User> Login(LoginUser user);
         Task<DetailedUser> GetUser(int userid);
+        Task<SqlResponse> UpdateProfile(ProfileUpdateUser user, int actorId);
         string PasswordHash(string password, string salt);
         string PasswordHash(string password, string salt, string key);
         string PasswordKey();
@@ -88,6 +89,31 @@ namespace CardboardCastle.Core
             return user == null ? null : (DetailedUser)user;
         }
 
+        public async Task<SqlResponse> UpdateProfile(ProfileUpdateUser user, int actorId)
+        {
+            try
+            {
+                var prof = await sqlService.GetUser(actorId);
+                if (prof == null)
+                    return SqlResponse.NotFound;
+
+                var password = PasswordHash(user.Password, prof.Salt);
+                if (password != prof.Password)
+                    return SqlResponse.Unauthorized;
+
+                prof.FirstName = Coalesce(user.FirstName, prof.FirstName, "User");
+                prof.LastName = Coalesce(user.LastName, prof.LastName, "name");
+                prof.EmailAddress = Coalesce(user.Email, prof.EmailAddress, "example@example.com");
+
+                return await sqlService.UpdateProfile(prof);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error occurred during profile update.");
+                return SqlResponse.Error;
+            }
+        }
+
         public string CreateToken(User user)
         {
             return new JwtToken(settings["Tokens:Key"])
@@ -138,6 +164,11 @@ namespace CardboardCastle.Core
                 var hash = cat.ComputeHash(input);
                 return hash.Aggregate("", (s, e) => s + string.Format("{0:x2}", e), s => s);
             }
+        }
+
+        public string Coalesce(params string[] inputs)
+        {
+            return inputs.FirstOrDefault(t => !string.IsNullOrEmpty(t));
         }
     }
 }

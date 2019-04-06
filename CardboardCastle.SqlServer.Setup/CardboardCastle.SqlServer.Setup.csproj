@@ -23,7 +23,7 @@
     <None Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Scripts\Procedures\*.sql">
+    <None Update="Scripts\Procedures\**\*.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Scripts\Tables\*.sql">

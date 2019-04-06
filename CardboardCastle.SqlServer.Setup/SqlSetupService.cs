@@ -60,7 +60,9 @@ namespace CardboardCastle.SqlServer.Setup
                 return new string[0];
             }
 
-            return Directory.GetFiles(filepath.Replace("*", ""), "*.sql", SearchOption.AllDirectories);
+            var opt = filepath.EndsWith("**\\*") || filepath.EndsWith("**/*") ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+            var san = filepath.Replace("**\\*", "").Replace("**/*", "").Replace("*", "");
+            return Directory.GetFiles(san, "*.sql", opt);
         }
 
         public void ProcessScriptFile(string filepath)

@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Register } from './register/register.component';
 import { EditAccount } from './edit/edit-account.component';
 import { Login } from './login/login.component';
+import { AuthGuard } from './../../services';
 
 const ROUTES: Routes = [
     {
@@ -18,7 +19,8 @@ const ROUTES: Routes = [
     },
     {
         path: '',
-        component: EditAccount 
+        component: EditAccount,
+        canActivate: [ AuthGuard ]
     }
 ]
 

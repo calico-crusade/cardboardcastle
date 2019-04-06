@@ -10,6 +10,7 @@ namespace CardboardCastle.Core.ApiModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime CreatedOn { get; set; }
+        public string Email { get; set; }
 
         public static implicit operator DetailedUser(User user)
         {
@@ -18,7 +19,8 @@ namespace CardboardCastle.Core.ApiModels
                 UserId = user.UserId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                CreatedOn = user.CreatedOn
+                CreatedOn = user.CreatedOn,
+                Email = user.EmailAddress
             };
         }
     }

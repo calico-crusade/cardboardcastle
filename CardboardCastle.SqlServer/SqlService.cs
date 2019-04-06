@@ -16,9 +16,8 @@ namespace CardboardCastle.SqlServer
     public interface ISqlService
     {
         int RunScript(string script);
-
         Task<SqlResponse> RegisterUser(User user);
-
+        Task<SqlResponse> UpdateProfile(User user);
         Task<User> FetchUser(string email);
         Task<User> GetUser(int id);
     }
@@ -86,6 +85,17 @@ namespace CardboardCastle.SqlServer
                 logger.LogWarning($"More than one user detected for {id}");
 
             return users.Data.First();
+        }
+
+        public Task<SqlResponse> UpdateProfile(User user)
+        {
+            return ExecuteStoredProc("[UpdateProfileUser]", new
+            {
+                user.FirstName,
+                user.LastName,
+                user.EmailAddress,
+                user.UserId
+            });
         }
 
         public async Task<SqlResponse> ExecuteStoredProc(string proc, object item, string catalog = null)
