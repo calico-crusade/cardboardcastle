@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { NotFound } from './notfound.component';
-import { ServiceModule } from './../../services';
 
 const ROUTES: Routes = [
     {
@@ -21,7 +20,6 @@ const COMP = [
     imports: [
         CommonModule,
         FormsModule,
-        ServiceModule,
         RouterModule.forChild(ROUTES)
     ],
     declarations: [

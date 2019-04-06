@@ -1,11 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Response, RequestOptions, Headers } from '@angular/http';
-
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import { Router } from "@angular/router";
-import { StorageService } from "./storage.service";
+import { HttpClient } from '@angular/common/http';
 
 export interface IAnalysis {
     name: string;
@@ -17,120 +11,31 @@ export interface IAnalysis {
 export class NetworkService {
 
     private base = 'api/';
-    private errors: string[] = [];
-    private debug: boolean = true;
-    private get authToken(): string {
-        return this.storage.token;
-    }
 
     constructor(
-        private http: Http,
-        private router: Router,
-        private storage: StorageService
-    ) {
-        this.errors = [];
+        private net: HttpClient
+    ) { }
+
+    public get<T>(url: string) {
+        return this.net.get<T>(this.handleUrl(url));
     }
 
-    get<T>(url: string, doContentType: boolean = true): Observable<T> {
-        let options = this.doHeaders(doContentType);
-        return this.doSub(this.http.get(this.doUrl(url), options));
-    }
-    post<T>(url: string, data: any, doContentType: boolean = true): Observable<T> {
-        return this.basePut<T>(url, data, doContentType);
-    }
-    put<T>(url: string, data: any, doContentType: boolean = true): Observable<T> {
-        let options = this.doHeaders(doContentType);
-        return this.doSub(this.http.put(this.doUrl(url), data, options));
-    }
-    patch<T>(url: string, data: any, doContentType: boolean = true): Observable<T> {
-        let options = this.doHeaders(doContentType);
-        return this.doSub(this.http.patch(this.doUrl(url), options, data));
+    public post<T>(url: string, data: any) {
+        return this.net.post<T>(this.handleUrl(url), data);
     }
 
-    private doSub<T>(obs: Observable<Response>) {
-        var ob1: Observable<T> = obs.map(this.extractData)
-            .catch(this.handleError);
-
-        return ob1;
+    public delete<T>(url: string) {
+        return this.net.delete<T>(this.handleUrl(url));
     }
 
-    private extractData(res: Response) {
-        try {
-            let body = res.json();
-            return body || [];
-        }
-        catch (Exception) {
-            return {
-                message: res.text()
-            }
-        }
+    public put<T>(url: string, data: any) {
+        return this.net.put<T>(this.handleUrl(url), data);
     }
 
-    private handleError(error: Response | any) {
-        if (error instanceof Response &&
-            error.status == 401 &&
-            this.router) {
-            this.router.navigate(['/login']);
-            return null;
-        }
-
-        let errMsg: string;
-        let body: any;
-        if (error instanceof Response) {
-            body = error.json() || '';
-            errMsg = `${error.status} - ${error.statusText || ''}`;
-        } else {
-            body = {};
-            errMsg = error.message ? error.message : error.toString();
-        }
-        if (this.debug) {
-            console.error('' + errMsg + '');
-        }
-        return Observable.throw({
-            message: errMsg,
-            body: body
-        });
-    }
-
-    private doUrl(url: string) {
-        if (url.indexOf('://') != -1)
+    private handleUrl(url: string) {
+        if (url.indexOf('://') !== -1)
             return url;
+
         return this.base + url;
-    }
-
-    private doHeaders(addContentType: boolean) {
-        if (!addContentType) {
-            if (this.authToken) {
-                return new RequestOptions({
-                    headers: new Headers({
-                        'Authorization': 'Bearer ' + this.authToken
-                    })
-                });
-            }
-
-            return new RequestOptions();
-        }
-
-        if (this.authToken) {
-            let headers = new Headers(
-                {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.authToken
-                }
-            );
-            return new RequestOptions({ headers: headers });
-        }
-
-        let headers = new Headers(
-            {
-                'Content-Type': 'application/json'
-            }
-        );
-        return new RequestOptions({ headers: headers });
-    }
-
-    private basePut<T>(url: string, data: any, addContentType: boolean = true): Observable<T> {
-        let options = this.doHeaders(addContentType);
-        return this.doSub(this.http.post(this.doUrl(url), data, options));
     }
 }

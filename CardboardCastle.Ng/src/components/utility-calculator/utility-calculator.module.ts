@@ -6,7 +6,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { UtilityCalculator } from './utility-calculator.component';
 import { EditUtilityComponent } from './edit-utility/edit-utility.component';
-import { ServiceModule } from './../../services';
 
 const ROUTES: Routes = [
     {
@@ -24,7 +23,6 @@ const COMP = [
     imports: [
         CommonModule,
         FormsModule,
-        ServiceModule,
         RouterModule.forChild(ROUTES),
         NgbModule
     ],

@@ -36,11 +36,12 @@ BEGIN
 		(
 			SELECT 
 				1 
-			FROM [dbo].[User] WITH NOLOCK
+			FROM [dbo].[User] WITH (NOLOCK)
 			WHERE
 				LTRIM(RTRIM(LOWER(@EmailAddress))) = LTRIM(RTRIM(LOWER(EmailAddress)))
 		)
 		BEGIN
+			ROLLBACK TRANSACTION T1;
 			RETURN -409; --Conflict (Duplicate Users)
 		END
 

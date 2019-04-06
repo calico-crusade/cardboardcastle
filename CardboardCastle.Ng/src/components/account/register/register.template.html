@@ -1,1 +1,53 @@
-﻿<h1>Register</h1>
+﻿<br />
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    Register
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="col-12 col-md-6 form-group">
+                            <label for="txtFirstname">First name</label>
+                            <input type="text" class="form-control" id="txtFirstname" placeholder="First Name" [(ngModel)]="firstname" required />
+                        </div>
+                        <div class="col-12 col-md-6 form-group">
+                            <label for="txtLastname">Last name</label>
+                            <input type="text" class="form-control" id="txtLastname" placeholder="Last Name" [(ngModel)]="lastname" required />
+                        </div>
+                        <div class="col-12 col-md-6 form-group">
+                            <label for="txtEmail">Email Address</label>
+                            <input type="email" class="form-control" id="txtEmail" placeholder="Email Address" [(ngModel)]="email" required />
+                            <small class="form-text text-muted">We won't share it!</small>
+                        </div>
+                        <div class="col-12 col-md-6 form-group">
+                            <label for="txtPassword">Password</label>
+                            <input type="password" class="form-control" id="txtPassword" placeholder="Password" [(ngModel)]="password" required />
+                            <small class="form-text text-muted">Make it a strong one!</small>
+                        </div>
+                        <div class="col-6">
+                            <p>Already have an account? <a routerLink="/account/login">Sign in</a></p>
+                        </div>
+                        <div class="col-6" *ngIf="!loading">
+                            <button class="btn btn-primary float-right" (click)="register()">Register</button>
+                        </div>
+                        <div class="col-6" *ngIf="loading">
+                            <button class="btn btn-primary float-right" disabled>Register <i class="fa fa-spin fa-spinner"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-lg-8" *ngIf="errors.length > 0">
+            <br />
+            <div class="alert alert-danger" role="alert">
+                <b class="alert-heading">Oops, there's a problem:</b>
+                <hr />
+                <ul>
+                    <li *ngFor="let alert of errors">{{ alert }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

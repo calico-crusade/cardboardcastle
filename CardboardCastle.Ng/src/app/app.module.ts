@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
@@ -11,22 +13,33 @@ import { AppRoutingModule } from './app.routing';
 import { LocalStorageModule } from 'angular-2-local-storage';
 
 // Import local modules
-import { ServiceModule } from './../services';
+import { NetworkService, HelperService, StorageService, TokenInterceptor } from './../services';
 
 @NgModule({
     imports: [
         BrowserModule,
         AppRoutingModule,
+        CommonModule,
+        HttpClientModule,
         NgbModule.forRoot(),
         LocalStorageModule.forRoot({
             prefix: 'cardboardcastle',
             storageType: 'localStorage'
-        }),
-        ServiceModule
+        })
     ],
     declarations: [
         AppComponent
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    providers: [
+        NetworkService,
+        HelperService,
+        StorageService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true
+        }
+    ]
 })
 export class AppModule { }

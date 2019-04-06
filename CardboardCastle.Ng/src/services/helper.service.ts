@@ -23,7 +23,7 @@ export class HelperService {
     validatePassword(password: string): boolean {
         if (password == null ||
             password == "" ||
-            password.length <= 8)
+            password.length <= 10)
             return false;
 
         var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");

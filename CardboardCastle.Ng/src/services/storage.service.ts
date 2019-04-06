@@ -9,9 +9,7 @@ export class StorageService {
 
     constructor(
         private storage: LocalStorageService
-    ) {
-
-    }
+    ) {}
 
     public get id(): number {
         return <number>this.storage.get(STORAGE_ID) || -1;

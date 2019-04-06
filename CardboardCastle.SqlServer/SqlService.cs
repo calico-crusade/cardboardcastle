@@ -65,14 +65,18 @@ namespace CardboardCastle.SqlServer
             using (var con = Connection)
             {
                 con.Open();
+                var param = new DynamicParameters(item);
+                param.Add("@ret", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
-                var code = await con.ExecuteAsync
+                await con.ExecuteAsync
                 (
                     sql: (catalog ?? config.Catalog) + proc,
-                    param: item,
+                    param: param,
                     commandType: CommandType.StoredProcedure,
                     commandTimeout: config.Timeout
                 );
+
+                var code = param.Get<int>("@ret");
 
                 if (code < 0)
                 {
